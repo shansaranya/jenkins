@@ -2,49 +2,53 @@ pipeline {
     agent any
 
     environment {
-        NODE_PATH = '/opt/homebrew/bin' // adjust if needed
+        // Ensure node and npm are available in Jenkins shell
+        PATH = "/opt/homebrew/bin:/usr/local/bin:$PATH"
     }
 
     stages {
         stage('Check Node & NPM') {
             steps {
-                sh "${NODE_PATH}/node --version"
-                sh "${NODE_PATH}/npm --version"
+                sh 'node --version'
+                sh 'npm --version'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh "${NODE_PATH}/npm install"
+                sh 'npm install'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'No build needed for this Node.js app'
+                echo 'No build step required for this app'
             }
         }
 
         stage('Test') {
             steps {
-                sh "${NODE_PATH}/npm test"
+                sh 'npm test'
             }
         }
 
         stage('Run') {
             steps {
-                sh "${NODE_PATH}/node app.js &"
-                echo 'App started in background'
+                sh 'node app.js &'
+                echo '🚀 App started in background (http://localhost:3000/add?a=1&b=2)'
             }
         }
     }
 
     post {
-        always {
-            echo '✅ Pipeline completed.'
+        success {
+            echo '✅ Pipeline completed successfully.'
         }
         failure {
             echo '❌ Pipeline failed.'
+        }
+        always {
+            echo '📦 Pipeline finished.'
         }
     }
 }
