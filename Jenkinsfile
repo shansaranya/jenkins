@@ -1,38 +1,53 @@
 pipeline {
-    agent {
-        docker { 
-            image 'node:18' 
-            args '-u root' 
-        }
+    agent any
+
+    environment {
+        PORT = '3000'
     }
 
     stages {
-        stage('Install') {
+        stage('Check Node & NPM') {
+            steps {
+                sh 'which node'
+                sh 'node --version'
+                sh 'which npm'
+                sh 'npm --version'
+            }
+        }
+
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
+
         stage('Build') {
             steps {
-                echo 'No build needed for Node.js script'
+                echo 'No build needed for this Node.js app'
             }
         }
+
         stage('Test') {
             steps {
+                echo 'Running tests (none for now)...'
                 sh 'npm test'
             }
         }
+
         stage('Run') {
             steps {
-                sh 'node app.js &'
-                echo 'App started in background'
+                echo 'Starting app in background'
+                sh 'nohup node app.js &'
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finished'
+            echo '✅ Pipeline completed.'
+        }
+        failure {
+            echo '❌ Pipeline failed.'
         }
     }
 }
