@@ -2,37 +2,36 @@ pipeline {
     agent any
 
     stages {
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
         stage('Build') {
             steps {
-                echo 'Building...'
-                sh 'echo "Build logic here"'
+                echo 'No build needed for Node.js script'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
-                sh 'echo "Run tests here"'
+                sh 'npm test'
             }
         }
 
-        stage('Deploy') {
-            when {
-                branch 'main'
-            }
+        stage('Run') {
             steps {
-                echo 'Deploying...'
-                sh 'echo "Deploy logic here (only on main)"'
+                sh 'node app.js &'
+                echo 'App started in background'
             }
         }
     }
 
     post {
-        success {
-            echo '✅ Pipeline succeeded...'
-        }
-        failure {
-            echo '❌ Pipeline failed'
+        always {
+            echo 'Pipeline finished'
         }
     }
 }
+
