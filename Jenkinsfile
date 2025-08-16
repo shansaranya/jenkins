@@ -2,19 +2,18 @@ pipeline {
     agent any
 
     stages {
-        stage('Install') {
+        stage('Check NPM') {
             steps {
-                sh '/usr/local/bin/npm install'
+                sh '/opt/homebrew/bin/which npm'
+                sh '/opt/homebrew/bin/npm --version'
             }
         }
 
-        stages {
-    stage('Check NPM') {
-      steps {
-        sh 'which npm'
-        sh 'npm --version'
-      }
-    }
+        stage('Install') {
+            steps {
+                sh '/opt/homebrew/bin/npm install'
+            }
+        }
 
         stage('Build') {
             steps {
@@ -24,7 +23,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'npm test'
+                sh '/opt/homebrew/bin/npm test'
             }
         }
 
@@ -42,4 +41,3 @@ pipeline {
         }
     }
 }
-
