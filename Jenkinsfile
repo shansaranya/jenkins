@@ -1,32 +1,27 @@
 pipeline {
-    agent any
+    agent {
+        docker { 
+            image 'node:18' 
+            args '-u root' 
+        }
+    }
 
     stages {
-        stage('Check NPM') {
-            steps {
-                sh 'which npm'
-                sh 'npm --version'
-            }
-        }
-
         stage('Install') {
             steps {
                 sh 'npm install'
             }
         }
-
         stage('Build') {
             steps {
                 echo 'No build needed for Node.js script'
             }
         }
-
         stage('Test') {
             steps {
                 sh 'npm test'
             }
         }
-
         stage('Run') {
             steps {
                 sh 'node app.js &'
