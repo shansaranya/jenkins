@@ -2,22 +2,20 @@ pipeline {
     agent any
 
     environment {
-        PORT = '3000'
+        NODE_PATH = '/opt/homebrew/bin' // adjust if needed
     }
 
     stages {
         stage('Check Node & NPM') {
             steps {
-                sh 'which node'
-                sh 'node --version'
-                sh 'which npm'
-                sh 'npm --version'
+                sh "${NODE_PATH}/node --version"
+                sh "${NODE_PATH}/npm --version"
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh "${NODE_PATH}/npm install"
             }
         }
 
@@ -29,15 +27,14 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Running tests (none for now)...'
-                sh 'npm test'
+                sh "${NODE_PATH}/npm test"
             }
         }
 
         stage('Run') {
             steps {
-                echo 'Starting app in background'
-                sh 'nohup node app.js &'
+                sh "${NODE_PATH}/node app.js &"
+                echo 'App started in background'
             }
         }
     }
