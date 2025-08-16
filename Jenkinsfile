@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Check NPM') {
             steps {
-                sh '/opt/homebrew/bin/which npm'
-                sh '/opt/homebrew/bin/npm --version'
+                sh 'which npm'
+                sh 'npm --version'
             }
         }
 
         stage('Install') {
             steps {
-                sh '/opt/homebrew/bin/npm install'
+                sh 'npm install'
             }
         }
 
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh '/opt/homebrew/bin/npm test'
+                sh 'npm test'
             }
         }
 
