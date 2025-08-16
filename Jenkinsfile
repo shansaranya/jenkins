@@ -4,9 +4,17 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'npm install'
+                sh '/usr/local/bin/npm install'
             }
         }
+
+        stages {
+    stage('Check NPM') {
+      steps {
+        sh 'which npm'
+        sh 'npm --version'
+      }
+    }
 
         stage('Build') {
             steps {
