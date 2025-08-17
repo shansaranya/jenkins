@@ -34,7 +34,12 @@ pipeline {
 
         stage('Run') {
             steps {
-                sh 'node app.js &'
+                // Stop anything already running on port 3000
+                sh 'lsof -ti:3000 | xargs kill -9 || true'
+
+                // Start app in background and redirect logs
+                sh 'nohup node app.js > app.log 2>&1 &'
+
                 echo '🚀 App started in background (http://localhost:3000/add?a=1&b=2)'
             }
         }
