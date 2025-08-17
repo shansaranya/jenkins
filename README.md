@@ -5,7 +5,7 @@ Go to your job: my-pipeline → Configure
 
 Scroll to Build Triggers
 
-✅ Check the test
+✅ Check the test.............
 
 GitHub hook trigger for GITScm polling
 
