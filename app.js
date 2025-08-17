@@ -14,6 +14,10 @@ app.get('/add', (req, res) => {
   res.json({ result: sum });
 });
 
+app.get('/', (req, res) => {
+  res.send('Server is working!');
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
